@@ -3,6 +3,8 @@ from cryptography.fernet import Fernet
 import os
 import io
 import zipfile
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 
 # Generate and store a key for encryption/decryption

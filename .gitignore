@@ -2,3 +2,9 @@
 decrypted
 encrypted
 uploads
+key.py
+_pycache_
+scripts
+include
+lib
+venv

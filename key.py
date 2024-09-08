@@ -3,8 +3,8 @@ from cryptography.fernet import Fernet
 import os
 import io
 import zipfile
-app = Flask(__name__)
+from dotenv import load_dotenv
+import os
 
-# Generate and store a key for encryption/decryption
-key = Fernet.generate_key()
-print(Fernet.generate_key())
+load_dotenv()  # This line brings all environment variables from .env into os.environ
+print(os.getenv('ENCRYPTION_KEY'))  
