@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk File Encryptor/Decryptor</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom futuristic styles */
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: #e0e0e0;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        h1, h2 {
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+        }
+
+        button {
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        .neon-border {
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .neon-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #00ffff;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+        }
+
+        .neon-input:focus {
+            border-color: #00ffff;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-8">
+        <!-- Futuristic Title -->
+        <h1 class="text-4xl font-bold text-center mb-12">Bulk File Encryptor/Decryptor</h1>
+
+        <!-- Encrypt Files Section -->
+        <div class="bg-gray-900 neon-border rounded-lg p-6 mb-8 shadow-lg">
+            <h2 class="text-3xl font-semibold mb-6 text-center">Encrypt Files</h2>
+            <form action="/encrypt" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <div>
+                    <label class="block text-gray-400 font-medium mb-2">Select files to encrypt:</label>
+                    <input type="file" name="files" multiple required class="neon-input block w-full text-sm border rounded-lg p-3">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold py-2 rounded-lg hover:from-cyan-500 hover:to-blue-500">Encrypt</button>
+            </form>
+        </div>
+
+        <!-- Decrypt Files Section -->
+        <div class="bg-gray-900 neon-border rounded-lg p-6 shadow-lg">
+            <h2 class="text-3xl font-semibold mb-6 text-center">Decrypt Files</h2>
+            <form action="/decrypt" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <div>
+                    <label class="block text-gray-400 font-medium mb-2">Select files to decrypt:</label>
+                    <input type="file" name="files" multiple required class="neon-input block w-full text-sm border rounded-lg p-3">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold py-2 rounded-lg hover:from-teal-500 hover:to-green-500">Decrypt</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
