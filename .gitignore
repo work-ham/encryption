@@ -8,3 +8,4 @@ scripts
 include
 lib
 venv
+pyvenv.cfg
