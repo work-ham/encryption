@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom soft cupcakes brown styles */
+        body {
+            background: linear-gradient(135deg, #f5e0e0, #f9d5b0);
+            min-height: 100vh;
+            color: #4e3b2b;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            color: #c49e6c;
+            text-shadow: 0 0 8px rgba(196, 158, 108, 0.8);
+        }
+
+        .gallery-item {
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .gallery-item img, .gallery-item video {
+            max-width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(196, 158, 108, 0.5);
+        }
+
+        .button-back {
+            display: inline-block;
+            background: linear-gradient(135deg, #dcbf9e, #e0bda2);
+            color: #4e3b2b;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button-back:hover {
+            background: linear-gradient(135deg, #e0bda2, #dcbf9e);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-12">Gallery</h1>
+
+        <!-- Back to Home Button -->
+        <div class="text-center mb-8">
+            <a href="/" class="button-back">Back to Home</a>
+        </div>
+
+        <!-- Area to display decrypted files -->
+        <div id="gallery-files-area" class="mt-8">
+            <!-- Decrypted files (images or videos) will be displayed here -->
+        </div>
+    </div>
+
+    <!-- JavaScript for handling file display -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Fetch the decrypted files list from the server
+            const response = await fetch('/gallery');
+            const files = await response.json();
+            const galleryFilesArea = document.getElementById('gallery-files-area');
+
+            // Clear any existing content
+            galleryFilesArea.innerHTML = '';
+
+            files.forEach(file => {
+                let fileItem;
+
+                if (file.type === 'image') {
+                    fileItem = `<div class="gallery-item"><img src="/temp/gallery/${file.filename}" alt="Decrypted Image"></div>`;
+                } else if (file.type === 'video') {
+                    fileItem = `<div class="gallery-item"><video controls><source src="/temp/gallery/${file.filename}" type="video/mp4"></video></div>`;
+                }
+
+                galleryFilesArea.innerHTML += fileItem;
+            });
+        });
+    </script>
+
+</body>
+</html>

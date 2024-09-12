@@ -45,6 +45,33 @@
             outline: none;
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
         }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3);
+            background-color: #1a1a2e;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 255, 255, 0.5);
+        }
+
+        .gallery-item img, .gallery-item video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +79,9 @@
     <div class="container mx-auto p-8">
         <!-- Futuristic Title -->
         <h1 class="text-4xl font-bold text-center mb-12">Bulk File Encryptor/Decryptor</h1>
-
+        <div class="text-center mt-4 py-8">
+            <a href="/collection" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 font-semibold py-2 px-4 rounded-lg">Go to Gallery</a>
+        </div>
         <!-- Encrypt Files Section -->
         <div class="bg-gray-900 neon-border rounded-lg p-6 mb-8 shadow-lg">
             <h2 class="text-3xl font-semibold mb-6 text-center">Encrypt Files</h2>
@@ -68,15 +97,55 @@
         <!-- Decrypt Files Section -->
         <div class="bg-gray-900 neon-border rounded-lg p-6 shadow-lg">
             <h2 class="text-3xl font-semibold mb-6 text-center">Decrypt Files</h2>
-            <form action="/decrypt" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form id="decrypt-form" method="POST" enctype="multipart/form-data" class="space-y-6">
                 <div>
                     <label class="block text-gray-400 font-medium mb-2">Select files to decrypt:</label>
-                    <input type="file" name="files" multiple required class="neon-input block w-full text-sm border rounded-lg p-3">
+                    <input type="file" id="file-input" name="files" multiple required class="neon-input block w-full text-sm border rounded-lg p-3">
                 </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold py-2 rounded-lg hover:from-teal-500 hover:to-green-500">Decrypt</button>
             </form>
         </div>
+
+        <!-- Area to display decrypted files -->
+        <div id="decrypted-files-area" class="gallery-grid">
+            <!-- Decrypted files (images or videos) will be displayed here -->
+        </div>
     </div>
+
+    <!-- JavaScript for handling file display -->
+    <script>
+        document.getElementById('decrypt-form').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('decrypt-form'));
+
+            // Send the form data via AJAX request
+            const response = await fetch('/decrypt', {
+                method: 'POST',
+                body: formData
+            });
+
+            // If the response is OK, display the decrypted files
+            if (response.ok) {
+                const decryptedFiles = await response.json();
+                const decryptedFilesArea = document.getElementById('decrypted-files-area');
+
+                // Clear any existing content
+                decryptedFilesArea.innerHTML = '';
+
+                decryptedFiles.forEach(file => {
+                    let fileItem;
+
+                    if (file.type === 'image') {
+                        fileItem = `<div class="gallery-item"><img src="/temp/${file.filename}" alt="Decrypted Image"></div>`;
+                    } else if (file.type === 'video') {
+                        fileItem = `<div class="gallery-item"><video controls><source src="/temp/${file.filename}" type="video/mp4"></video></div>`;
+                    }
+
+                    decryptedFilesArea.innerHTML += fileItem;
+                });
+            }
+        };
+    </script>
 
 </body>
 </html>

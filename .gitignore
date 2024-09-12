@@ -9,3 +9,5 @@ include
 lib
 venv
 pyvenv.cfg
+temp
+activate.sh
